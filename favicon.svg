@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" fill="none">
+  <!-- Altis logo geometric shape approximation -->
+  <rect width="100" height="100" rx="16" fill="#0a0e1a"/>
+  <!-- Outer square rotated -->
+  <g transform="translate(50,50) rotate(45)">
+    <rect x="-30" y="-30" width="60" height="60" stroke="#00d4c8" stroke-width="8" fill="none" rx="4"/>
+    <!-- Inner maze-like path -->
+    <rect x="-16" y="-16" width="32" height="32" stroke="#00d4c8" stroke-width="7" fill="none" rx="2"/>
+    <!-- Center mark -->
+    <rect x="-5" y="-5" width="10" height="10" fill="#00d4c8" rx="1"/>
+  </g>
+</svg>
