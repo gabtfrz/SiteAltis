@@ -1,0 +1,24 @@
+{
+  "name": "nodal-rag",
+  "version": "1.0.0",
+  "private": true,
+  "description": "RAG system para captura de aprendizados do projeto NODAL",
+  "type": "module",
+  "scripts": {
+    "summarize": "tsx summarize.ts",
+    "embed": "tsx embed.ts",
+    "search": "tsx search.ts",
+    "setup-db": "tsx setup-db.ts"
+  },
+  "dependencies": {
+    "@xenova/transformers": "^2.17.2",
+    "better-sqlite3": "^9.6.0",
+    "sqlite-vec": "^0.1.6"
+  },
+  "devDependencies": {
+    "@types/better-sqlite3": "^7.6.8",
+    "@types/node": "^20.11.0",
+    "tsx": "^4.7.1",
+    "typescript": "^5.3.3"
+  }
+}

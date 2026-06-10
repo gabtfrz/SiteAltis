@@ -1,0 +1,151 @@
+.section {
+  padding: 6rem 0;
+  background: #0a0d1a;
+  position: relative;
+}
+
+.section::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: rgba(255,255,255,0.06);
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 1.5rem;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 5rem;
+  align-items: center;
+}
+
+/* Metric grid replacing the logo-in-card */
+.visual {
+  display: flex;
+  justify-content: center;
+}
+
+.metricGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1px;
+  background: rgba(255,255,255,0.06);
+  border: 1px solid rgba(255,255,255,0.06);
+  border-radius: 20px;
+  overflow: hidden;
+  width: 100%;
+  max-width: 380px;
+}
+
+.metricCard {
+  background: #0c1220;
+  padding: 2.25rem 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.metricNum {
+  font-size: clamp(1.6rem, 3vw, 2.5rem);
+  font-weight: 900;
+  color: #fff;
+  letter-spacing: -0.03em;
+  line-height: 1;
+}
+
+.metricLabel {
+  font-size: 0.82rem;
+  color: #8892a4;
+  font-weight: 500;
+  line-height: 1.3;
+}
+
+/* Content side */
+.content {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.tag {
+  display: inline-block;
+  color: #00d4c8;
+  font-size: 0.82rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  border-bottom: 2px solid #00d4c8;
+  padding-bottom: 4px;
+  width: fit-content;
+}
+
+.title {
+  font-size: clamp(2rem, 3.5vw, 2.6rem);
+  font-weight: 800;
+  line-height: 1.2;
+  letter-spacing: -0.02em;
+  color: #fff;
+}
+
+.accent {
+  color: #00d4c8;
+}
+
+.text {
+  font-size: 1rem;
+  color: #8892a4;
+  line-height: 1.75;
+}
+
+.pillars {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  margin-top: 0.5rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid rgba(255,255,255,0.06);
+}
+
+.pillar {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.9rem;
+}
+
+.pillarIcon {
+  width: 34px;
+  height: 34px;
+  background: rgba(0,212,200,0.08);
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.pillar strong {
+  display: block;
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: #fff;
+  margin-bottom: 0.15rem;
+}
+
+.pillar p {
+  font-size: 0.84rem;
+  color: #8892a4;
+  margin: 0;
+}
+
+@media (max-width: 900px) {
+  .container {
+    grid-template-columns: 1fr;
+    gap: 3rem;
+  }
+  .visual { display: none; }
+}
