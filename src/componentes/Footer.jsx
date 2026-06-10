@@ -6,7 +6,7 @@ export default function Footer() {
     <footer className={styles.footer}>
       <div className={styles.top}>
         <div className={styles.brand}>
-          <img src="/logoHeaderFooter.png" alt="Altis Sistemas" className={styles.brandImg} />
+          <img src={`${import.meta.env.BASE_URL}logoHeaderFooter.png`} alt="Altis Sistemas" className={styles.brandImg} />
           <p className={styles.tagline}>
             Tecnologia que transforma negócios.
           </p>

@@ -25,7 +25,7 @@ export default function Navbar() {
     <nav className={`${styles.nav} ${scrolled ? styles.scrolled : ''}`}>
       <div className={styles.container}>
         <a href="#inicio" className={styles.brand}>
-          <img src="/logoHeaderFooter.png" alt="Altis Sistemas" className={styles.brandImg} />
+          <img src={`${import.meta.env.BASE_URL}logoHeaderFooter.png`} alt="Altis Sistemas" className={styles.brandImg} />
         </a>
 
         <ul className={`${styles.links} ${menuOpen ? styles.open : ''}`}>
