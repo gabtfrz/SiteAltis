@@ -1,3 +1,5 @@
+import gsap from "gsap";
+import useGsap from "../hooks/useGsap";
 import styles from "./Contato.module.css";
 
 const canais = [
@@ -62,10 +64,37 @@ const canais = [
 ];
 
 export default function Contato() {
+  const escopo = useGsap(() => {
+    gsap.from('[data-anim="header"] > *', {
+      y: 32,
+      autoAlpha: 0,
+      duration: 0.7,
+      ease: "power3.out",
+      stagger: 0.12,
+      scrollTrigger: { trigger: escopo.current, start: "top 75%" },
+    });
+    gsap.from('[data-anim="canal"]', {
+      y: 48,
+      autoAlpha: 0,
+      duration: 0.8,
+      ease: "power3.out",
+      stagger: 0.12,
+      // limpa o transform inline ao final — o hover dos cards usa transform via CSS
+      clearProps: "all",
+      scrollTrigger: { trigger: escopo.current, start: "top 60%" },
+    });
+    gsap.from('[data-anim="horario"]', {
+      autoAlpha: 0,
+      duration: 0.8,
+      ease: "power2.out",
+      scrollTrigger: { trigger: escopo.current, start: "top 50%" },
+    });
+  });
+
   return (
-    <section id="contato" className={styles.section}>
+    <section id="contato" className={styles.section} ref={escopo}>
       <div className={styles.container}>
-        <div className={styles.header}>
+        <div className={styles.header} data-anim="header">
           <span className={styles.tag}>Contato</span>
           <h2 className={styles.title}>
             Vamos conversar sobre
@@ -86,6 +115,7 @@ export default function Contato() {
               target={c.target || "_self"}
               rel={c.target === "_blank" ? "noopener noreferrer" : undefined}
               className={styles.card}
+              data-anim="canal"
               style={{ "--cor": c.cor }}
             >
               <div className={styles.iconWrap} style={{ color: c.cor }}>
@@ -111,7 +141,7 @@ export default function Contato() {
           ))}
         </div>
 
-        <div className={styles.horario}>
+        <div className={styles.horario} data-anim="horario">
           <span className={styles.horarioDot} />
           Atendimento de segunda a sexta, das 9h às 19h, e aos sábados, das 8h
           às 12h (horário de Brasília)

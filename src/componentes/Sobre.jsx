@@ -1,28 +1,58 @@
+import gsap from "gsap";
+import useGsap, { animarContadores } from "../hooks/useGsap";
 import styles from "./Sobre.module.css";
 
 const metricas = [
-  { num: "107", label: "Empresas atendidas" },
-  { num: "7+", label: "Anos de mercado" },
-  { num: "400+", label: "Usuários ativos" },
+  { num: "107", contador: 107, label: "Empresas atendidas" },
+  { num: "7+", contador: 7, sufixo: "+", label: "Anos de mercado" },
+  { num: "400+", contador: 400, sufixo: "+", label: "Usuários ativos" },
   { num: "Seg-Sab", label: "Suporte Humanizado" },
 ];
 
 export default function Sobre() {
+  const escopo = useGsap(() => {
+    gsap.from('[data-anim="metric"]', {
+      x: -40,
+      autoAlpha: 0,
+      duration: 0.7,
+      ease: "power3.out",
+      stagger: 0.1,
+      scrollTrigger: { trigger: escopo.current, start: "top 70%" },
+    });
+    gsap.from('[data-anim="conteudo"] > *', {
+      y: 28,
+      autoAlpha: 0,
+      duration: 0.7,
+      ease: "power3.out",
+      stagger: 0.1,
+      scrollTrigger: { trigger: escopo.current, start: "top 70%" },
+    });
+    animarContadores(escopo.current, {
+      scrollTrigger: { trigger: escopo.current, start: "top 70%" },
+    });
+  });
+
   return (
-    <section id="sobre" className={styles.section}>
+    <section id="sobre" className={styles.section} ref={escopo}>
       <div className={styles.container}>
         <div className={styles.visual}>
           <div className={styles.metricGrid}>
             {metricas.map((m) => (
-              <div key={m.label} className={styles.metricCard}>
-                <span className={styles.metricNum}>{m.num}</span>
+              <div key={m.label} className={styles.metricCard} data-anim="metric">
+                <span
+                  className={styles.metricNum}
+                  data-contador={m.contador}
+                  data-sufixo={m.sufixo}
+                >
+                  {m.num}
+                </span>
                 <span className={styles.metricLabel}>{m.label}</span>
               </div>
             ))}
           </div>
         </div>
 
-        <div className={styles.content}>
+        <div className={styles.content} data-anim="conteudo">
           <span className={styles.tag}>Quem Somos</span>
           <h2 className={styles.title}>
             Tecnologia com

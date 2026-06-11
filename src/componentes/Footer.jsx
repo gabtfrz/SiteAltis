@@ -1,9 +1,23 @@
+import gsap from 'gsap'
+import useGsap from '../hooks/useGsap'
 import styles from './Footer.module.css'
 
 export default function Footer() {
   const ano = new Date().getFullYear()
+
+  const escopo = useGsap(() => {
+    gsap.from(escopo.current.children, {
+      y: 24,
+      autoAlpha: 0,
+      duration: 0.7,
+      ease: 'power3.out',
+      stagger: 0.15,
+      scrollTrigger: { trigger: escopo.current, start: 'top 92%' },
+    })
+  })
+
   return (
-    <footer className={styles.footer}>
+    <footer className={styles.footer} ref={escopo}>
       <div className={styles.top}>
         <div className={styles.brand}>
           <img src={`${import.meta.env.BASE_URL}logoHeaderFooter.png`} alt="Altis Sistemas" className={styles.brandImg} />

@@ -1,3 +1,5 @@
+import gsap from 'gsap'
+import useGsap from '../hooks/useGsap'
 import styles from './Diferenciais.module.css'
 
 const items = [
@@ -20,10 +22,40 @@ const items = [
 ]
 
 export default function Diferenciais() {
+  const escopo = useGsap(() => {
+    gsap.from('[data-anim="header"] > *', {
+      y: 32,
+      autoAlpha: 0,
+      duration: 0.7,
+      ease: 'power3.out',
+      stagger: 0.12,
+      scrollTrigger: { trigger: escopo.current, start: 'top 75%' },
+    })
+    gsap.from('[data-anim="item"]', {
+      y: 40,
+      autoAlpha: 0,
+      duration: 0.7,
+      ease: 'power3.out',
+      stagger: 0.1,
+      scrollTrigger: { trigger: escopo.current, start: 'top 60%' },
+    })
+    gsap.from('[data-anim="cta"]', {
+      y: 48,
+      autoAlpha: 0,
+      scale: 0.97,
+      duration: 0.8,
+      ease: 'power3.out',
+      scrollTrigger: {
+        trigger: escopo.current.querySelector('[data-anim="cta"]'),
+        start: 'top 85%',
+      },
+    })
+  })
+
   return (
-    <section id="diferenciais" className={styles.section}>
+    <section id="diferenciais" className={styles.section} ref={escopo}>
       <div className={styles.container}>
-        <div className={styles.header}>
+        <div className={styles.header} data-anim="header">
           <span className={styles.tag}>Por que a Altis</span>
           <h2 className={styles.title}>
             O que nos diferencia
@@ -34,7 +66,7 @@ export default function Diferenciais() {
 
         <div className={styles.grid}>
           {items.map(item => (
-            <div key={item.titulo} className={styles.item}>
+            <div key={item.titulo} className={styles.item} data-anim="item">
               <div className={styles.check}>
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
                   <path d="M20 6L9 17l-5-5"/>
@@ -48,7 +80,7 @@ export default function Diferenciais() {
           ))}
         </div>
 
-        <div className={styles.cta}>
+        <div className={styles.cta} data-anim="cta">
           <div className={styles.ctaInner}>
             <div className={styles.ctaContent}>
               <h3 className={styles.ctaTitle}>

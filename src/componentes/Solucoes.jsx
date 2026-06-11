@@ -1,3 +1,6 @@
+import { useEffect } from 'react'
+import gsap from 'gsap'
+import useGsap from '../hooks/useGsap'
 import styles from './Solucoes.module.css'
 
 const solucoes = [
@@ -74,10 +77,64 @@ const solucoes = [
 ]
 
 export default function Solucoes() {
+  const escopo = useGsap(() => {
+    gsap.from('[data-anim="header"] > *', {
+      y: 32,
+      autoAlpha: 0,
+      duration: 0.7,
+      ease: 'power3.out',
+      stagger: 0.12,
+      scrollTrigger: { trigger: escopo.current, start: 'top 75%' },
+    })
+    gsap.from('[data-anim="card"]', {
+      y: 48,
+      autoAlpha: 0,
+      rotationX: -10,
+      transformPerspective: 800,
+      duration: 0.8,
+      ease: 'power3.out',
+      stagger: 0.1,
+      scrollTrigger: { trigger: escopo.current, start: 'top 60%' },
+    })
+  })
+
+  // tilt 3D nos cards seguindo o mouse — fora do gsap.context para
+  // garantir remoção dos listeners no unmount
+  useEffect(() => {
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return
+    const cards = Array.from(escopo.current.querySelectorAll('[data-anim="card"]'))
+    const limpezas = cards.map((card) => {
+      const rotX = gsap.quickTo(card, 'rotationX', { duration: 0.45, ease: 'power2.out' })
+      const rotY = gsap.quickTo(card, 'rotationY', { duration: 0.45, ease: 'power2.out' })
+      const elevar = gsap.quickTo(card, 'y', { duration: 0.45, ease: 'power2.out' })
+
+      const aoMover = (e) => {
+        const r = card.getBoundingClientRect()
+        gsap.set(card, { transformPerspective: 700 })
+        rotX(-((e.clientY - r.top) / r.height - 0.5) * 8)
+        rotY(((e.clientX - r.left) / r.width - 0.5) * 8)
+        elevar(-4)
+      }
+      const aoSair = () => {
+        rotX(0)
+        rotY(0)
+        elevar(0)
+      }
+      card.addEventListener('mousemove', aoMover)
+      card.addEventListener('mouseleave', aoSair)
+      return () => {
+        card.removeEventListener('mousemove', aoMover)
+        card.removeEventListener('mouseleave', aoSair)
+      }
+    })
+    return () => limpezas.forEach((fn) => fn())
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
+
   return (
-    <section id="solucoes" className={styles.section}>
+    <section id="solucoes" className={styles.section} ref={escopo}>
       <div className={styles.container}>
-        <div className={styles.header}>
+        <div className={styles.header} data-anim="header">
           <span className={styles.tag}>Nossas Soluções</span>
           <h2 className={styles.title}>
             Tudo que sua empresa precisa
@@ -92,7 +149,7 @@ export default function Solucoes() {
 
         <div className={styles.grid}>
           {solucoes.map((s) => (
-            <div key={s.titulo} className={styles.card}>
+            <div key={s.titulo} className={styles.card} data-anim="card">
               <div className={styles.iconWrap}>{s.icon}</div>
               <h3 className={styles.cardTitle}>{s.titulo}</h3>
               <p className={styles.cardDesc}>{s.descricao}</p>

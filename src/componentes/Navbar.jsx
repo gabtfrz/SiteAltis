@@ -1,4 +1,6 @@
 import { useState, useEffect } from 'react'
+import gsap from 'gsap'
+import useGsap from '../hooks/useGsap'
 import styles from './Navbar.module.css'
 
 const links = [
@@ -13,6 +15,18 @@ export default function Navbar() {
   const [scrolled, setScrolled] = useState(false)
   const [menuOpen, setMenuOpen] = useState(false)
 
+  const escopo = useGsap(() => {
+    // clearProps obrigatório: transform inline no nav viraria containing
+    // block do menu mobile (position: fixed)
+    gsap.from(escopo.current, {
+      y: -24,
+      autoAlpha: 0,
+      duration: 0.7,
+      ease: 'power3.out',
+      clearProps: 'all',
+    })
+  })
+
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 40)
     window.addEventListener('scroll', onScroll)
@@ -22,7 +36,7 @@ export default function Navbar() {
   const handleLinkClick = () => setMenuOpen(false)
 
   return (
-    <nav className={`${styles.nav} ${scrolled ? styles.scrolled : ''}`}>
+    <nav className={`${styles.nav} ${scrolled ? styles.scrolled : ''}`} ref={escopo}>
       <div className={styles.container}>
         <a href="#inicio" className={styles.brand}>
           <img src={`${import.meta.env.BASE_URL}logoHeaderFooter.png`} alt="Altis Sistemas" className={styles.brandImg} />

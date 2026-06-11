@@ -1,16 +1,50 @@
+import { lazy, Suspense } from 'react'
+import gsap from 'gsap'
+import useGsap, { animarContadores } from '../hooks/useGsap'
 import styles from './Hero.module.css'
 
+// three.js fica em chunk separado — a cena é decorativa e não pode
+// atrasar o carregamento do conteúdo
+const Hero3D = lazy(() => import('./Hero3D'))
+
 export default function Hero() {
+  const escopo = useGsap(() => {
+    const tl = gsap.timeline({ defaults: { ease: 'power3.out' } })
+    tl.from('[data-anim="badge"]', { y: 24, autoAlpha: 0, duration: 0.6 })
+      .from('[data-anim="titulo"]', { y: 44, autoAlpha: 0, duration: 0.8 }, '-=0.35')
+      .from('[data-anim="subtitulo"]', { y: 28, autoAlpha: 0, duration: 0.7 }, '-=0.55')
+      .from('[data-anim="acoes"]', { y: 20, autoAlpha: 0, duration: 0.6 }, '-=0.5')
+      .from('[data-anim="stats"]', { y: 20, autoAlpha: 0, duration: 0.6 }, '-=0.45')
+      .from('[data-anim="visual"]', { x: 48, autoAlpha: 0, duration: 0.9 }, '-=0.75')
+
+    animarContadores(escopo.current, { delay: 0.9, duration: 1.8 })
+
+    // parallax sutil do card de módulos enquanto o hero sai de cena
+    gsap.to('[data-anim="visual"]', {
+      y: -50,
+      ease: 'none',
+      scrollTrigger: {
+        trigger: escopo.current,
+        start: 'top top',
+        end: 'bottom top',
+        scrub: true,
+      },
+    })
+  })
+
   return (
-    <section id="inicio" className={styles.hero}>
+    <section id="inicio" className={styles.hero} ref={escopo}>
+      <Suspense fallback={null}>
+        <Hero3D />
+      </Suspense>
       <div className={styles.container}>
         <div className={styles.content}>
-          <div className={styles.badge}>
+          <div className={styles.badge} data-anim="badge">
             <span className={styles.badgeDot} />
             Tecnologia para empresas que crescem
           </div>
 
-          <h1 className={styles.title}>
+          <h1 className={styles.title} data-anim="titulo">
             Sistemas que
             <br />
             <span className={styles.accent}>transformam</span>
@@ -18,13 +52,13 @@ export default function Hero() {
             seu negócio
           </h1>
 
-          <p className={styles.subtitle}>
+          <p className={styles.subtitle} data-anim="subtitulo">
             A Altis Sistemas desenvolve soluções tecnológicas personalizadas — ERP,
             automação de processos e suporte especializado — para que sua empresa
             opere com mais eficiência e competitividade.
           </p>
 
-          <div className={styles.actions}>
+          <div className={styles.actions} data-anim="acoes">
             <a href="#contato" className={styles.btnPrimary}>
               Falar com o Comercial
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
@@ -36,25 +70,25 @@ export default function Hero() {
             </a>
           </div>
 
-          <div className={styles.stats}>
+          <div className={styles.stats} data-anim="stats">
             <div className={styles.stat}>
-              <span className={styles.statNum}>107</span>
+              <span className={styles.statNum} data-contador="107">107</span>
               <span className={styles.statLabel}>Empresas atendidas</span>
             </div>
             <div className={styles.statDivider} />
             <div className={styles.stat}>
-              <span className={styles.statNum}>7+</span>
+              <span className={styles.statNum} data-contador="7" data-sufixo="+">7+</span>
               <span className={styles.statLabel}>Anos no mercado</span>
             </div>
             <div className={styles.statDivider} />
             <div className={styles.stat}>
-              <span className={styles.statNum}>400+</span>
+              <span className={styles.statNum} data-contador="400" data-sufixo="+">400+</span>
               <span className={styles.statLabel}>Usuários ativos</span>
             </div>
           </div>
         </div>
 
-        <div className={styles.visual}>
+        <div className={styles.visual} data-anim="visual">
           <FeatureHighlights />
         </div>
       </div>
