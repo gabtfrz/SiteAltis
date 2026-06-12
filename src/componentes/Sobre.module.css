@@ -1,6 +1,7 @@
 .section {
   padding: 6rem 0;
-  background: #0a0d1a;
+  /* translúcido para o fundo 3D global transparecer */
+  background: rgba(10, 13, 26, 0.72);
   position: relative;
 }
 

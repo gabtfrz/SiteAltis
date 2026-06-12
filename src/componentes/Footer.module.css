@@ -1,7 +1,10 @@
 .footer {
-  background: #080b16;
+  /* translúcido para o fundo 3D global transparecer; position: relative
+     garante que o footer pinte acima do canvas fixo */
+  background: rgba(8, 11, 22, 0.88);
   border-top: 1px solid rgba(0,212,200,0.12);
   padding: 4rem 0 2rem;
+  position: relative;
 }
 
 .top {
